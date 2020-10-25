@@ -138,6 +138,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Customer_Test_View.cs">
+      <DependentUpon>HomeworkCustomer.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EFGeneratePartialClass.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -158,6 +161,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HomeworkCustomer.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\PhoneCorrectAttribute.cs" />
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>HomeworkCustomer.tt</DependentUpon>
     </Compile>
@@ -260,6 +264,7 @@
     <Content Include="Views\CustomerContact\Delete.cshtml" />
     <Content Include="Views\CustomerContact\Edit.cshtml" />
     <Content Include="Views\CustomerContact\Index.cshtml" />
+    <Content Include="Views\Home\Report.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

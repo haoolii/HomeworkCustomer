@@ -1,0 +1,45 @@
+﻿@model IEnumerable<HomeworkCustomer.Models.Customer_Test_View>
+
+@{
+    ViewBag.Title = "Report";
+}
+
+<h2>Report</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.客戶名稱)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.客戶銀行數)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.客戶聯絡人數)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.客戶名稱)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.客戶銀行數)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.客戶聯絡人數)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+    </td>
+</tr>
+}
+
+</table>
