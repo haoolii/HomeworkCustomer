@@ -14,7 +14,7 @@ namespace HomeworkCustomer.Controllers
         // GET: Customer
         public ActionResult Index()
         {
-            var datas = db.客戶資料.ToList();
+            var datas = db.客戶資料.ToList().Where(p => p.IsDelete != true);
             return View(datas);
         }
         public ActionResult Create()
@@ -81,7 +81,7 @@ namespace HomeworkCustomer.Controllers
         {
             var data = db.客戶資料.Find(id);
 
-            db.客戶資料.Remove(data);
+            data.IsDelete = true;
 
             db.SaveChanges();
 

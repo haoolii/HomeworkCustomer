@@ -14,7 +14,7 @@ namespace HomeworkCustomer.Controllers
         // GET: CustomerAccount
         public ActionResult Index()
         {
-            var datas = db.客戶銀行資訊.ToList();
+            var datas = db.客戶銀行資訊.ToList().Where(p => p.IsDelete != true);
             return View(datas);
         }
 
@@ -98,7 +98,7 @@ namespace HomeworkCustomer.Controllers
         {
             var data = db.客戶銀行資訊.Find(id);
 
-            db.客戶銀行資訊.Remove(data);
+            data.IsDelete = true;
 
             db.SaveChanges();
 
