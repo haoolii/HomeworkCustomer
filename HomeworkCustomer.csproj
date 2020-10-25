@@ -45,10 +45,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Omu.ValueInjecter, Version=3.2.0.0, Culture=neutral, PublicKeyToken=5692a4ecdffbe736, processorArchitecture=MSIL">
+      <HintPath>packages\ValueInjecter.3.2.0\lib\net45\Omu.ValueInjecter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -120,13 +131,64 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CustomerAccountController.cs" />
+    <Compile Include="Controllers\CustomerContactController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EFGeneratePartialClass.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HomeworkCustomer.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HomeworkCustomer.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HomeworkCustomer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HomeworkCustomer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HomeworkCustomer.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HomeworkCustomer.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>HomeworkCustomer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.Partial.cs">
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\客戶聯絡人.cs">
+      <DependentUpon>HomeworkCustomer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\客戶聯絡人.Partial.cs">
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\客戶資料.cs">
+      <DependentUpon>HomeworkCustomer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\客戶資料.Partial.cs">
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\客戶銀行資訊.cs">
+      <DependentUpon>HomeworkCustomer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\客戶銀行資訊.Partial.cs">
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\客戶資料.mdf" />
+    <Content Include="App_Data\客戶資料_log.ldf">
+      <DependentUpon>客戶資料.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -135,8 +197,29 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\EFGeneratePartialClass.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EFGeneratePartialClass.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\HomeworkCustomer.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>HomeworkCustomer.Context.cs</LastGenOutput>
+      <DependentUpon>HomeworkCustomer.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\HomeworkCustomer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HomeworkCustomer.edmx</DependentUpon>
+      <LastGenOutput>HomeworkCustomer.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\HomeworkCustomer.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HomeworkCustomer.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\HomeworkCustomer.edmx.diagram">
+      <DependentUpon>HomeworkCustomer.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -162,11 +245,23 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Customer\Create.cshtml" />
+    <Content Include="Views\Customer\Edit.cshtml" />
+    <Content Include="Views\Customer\Delete.cshtml" />
+    <Content Include="Views\CustomerAccount\Index.cshtml" />
+    <Content Include="Views\CustomerAccount\Create.cshtml" />
+    <Content Include="Views\CustomerAccount\Edit.cshtml" />
+    <Content Include="Views\Customer\Details.cshtml" />
+    <Content Include="Views\CustomerAccount\Details.cshtml" />
+    <Content Include="Views\CustomerAccount\Delete.cshtml" />
+    <Content Include="Views\CustomerContact\Create.cshtml" />
+    <Content Include="Views\CustomerContact\Details.cshtml" />
+    <Content Include="Views\CustomerContact\Delete.cshtml" />
+    <Content Include="Views\CustomerContact\Edit.cshtml" />
+    <Content Include="Views\CustomerContact\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -179,6 +274,9 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
