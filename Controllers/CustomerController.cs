@@ -12,8 +12,13 @@ namespace HomeworkCustomer.Controllers
     {
         private 客戶資料Entities db = new 客戶資料Entities();
         // GET: Customer
-        public ActionResult Index()
+        public ActionResult Index(string queryString)
         {
+            if (!String.IsNullOrEmpty(queryString))
+            {
+                var queryDatas = db.客戶資料.ToList().Where(p => p.IsDelete != true && p.客戶名稱.Contains(queryString));
+                return View(queryDatas);
+            }
             var datas = db.客戶資料.ToList().Where(p => p.IsDelete != true);
             return View(datas);
         }

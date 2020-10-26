@@ -3,7 +3,8 @@ namespace HomeworkCustomer.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+    using System.Web.Mvc;
+
     [MetadataType(typeof(客戶聯絡人MetaData))]
     public partial class 客戶聯絡人
     {
@@ -26,6 +27,7 @@ namespace HomeworkCustomer.Models
         
         [StringLength(250, ErrorMessage="欄位長度不得大於 250 個字元")]
         [Required]
+        [Remote("IsEmailAvailable", "CustomerContact", ErrorMessage = "該客戶此相同信箱已經使用過了", AdditionalFields = "客戶Id")]
         public string Email { get; set; }
 
         [PhoneCorrect]

@@ -108,5 +108,11 @@ namespace HomeworkCustomer.Controllers
 
             return RedirectToAction("index");
         }
+
+        [HttpGet]
+        public JsonResult IsEmailAvailable(客戶聯絡人 model)
+        {
+            return Json(!db.客戶聯絡人.Any(p => p.客戶Id == model.客戶Id && p.Email == model.Email && p.IsDelete == false), JsonRequestBehavior.AllowGet);
+        }
     }
 }
