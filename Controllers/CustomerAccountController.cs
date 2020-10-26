@@ -20,7 +20,7 @@ namespace HomeworkCustomer.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(db.客戶資料.Where(p => p.IsDelete != true), "Id", "客戶名稱");
             return View();
         }
 
@@ -44,7 +44,7 @@ namespace HomeworkCustomer.Controllers
             }
             var data = db.客戶銀行資訊.Find(id);
 
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(db.客戶資料.Where(p => p.IsDelete != true), "Id", "客戶名稱");
 
             return View(data);
         }
@@ -64,7 +64,7 @@ namespace HomeworkCustomer.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(db.客戶資料.Where(p => p.IsDelete != true), "Id", "客戶名稱");
 
             return View(data);
         }
