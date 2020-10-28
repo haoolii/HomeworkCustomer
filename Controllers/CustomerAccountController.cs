@@ -1,7 +1,9 @@
-﻿using HomeworkCustomer.Models;
+﻿using ClosedXML.Excel;
+using HomeworkCustomer.Models;
 using Omu.ValueInjecter;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -105,6 +107,24 @@ namespace HomeworkCustomer.Controllers
             repo.UnitOfWork.Commit();
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult GetReport()
+        {
+            // 參考 https://dotblogs.com.tw/rexhuang/2017/05/18/230611
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                var data = repo.All().Select(p => new { p.銀行名稱, p.銀行代碼, p.分行代碼, p.帳戶名稱, p.帳戶號碼, p.客戶資料.客戶名稱 });
+                var ws = wb.Worksheets.Add("cusdata", 1);
+                ws.Cell(1, 1).InsertData(data);
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    wb.SaveAs(memoryStream);
+                    memoryStream.Seek(0, SeekOrigin.Begin);
+                    return this.File(memoryStream.ToArray(), "application/vnd.ms-excel", "Report.xlsx");
+                }
+            }
         }
     }
 }
