@@ -10,17 +10,16 @@ namespace HomeworkCustomer.Controllers
 {
     public class CustomerController : Controller
     {
-        private 客戶資料Entities db = new 客戶資料Entities();
+        客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
         // GET: Customer
         public ActionResult Index(string queryString)
         {
             if (!String.IsNullOrEmpty(queryString))
             {
-                var queryDatas = db.客戶資料.ToList().Where(p => p.IsDelete != true && p.客戶名稱.Contains(queryString));
+                var queryDatas = repo.All().Where(p => p.客戶名稱.Contains(queryString));
                 return View(queryDatas);
             }
-            var datas = db.客戶資料.ToList().Where(p => p.IsDelete != true);
-            return View(datas);
+            return View(repo.All());
         }
         public ActionResult Create()
         {
@@ -32,9 +31,8 @@ namespace HomeworkCustomer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶資料.Add(customer);
-                db.SaveChanges();
-
+                repo.Add(customer);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
             
@@ -48,20 +46,20 @@ namespace HomeworkCustomer.Controllers
                 return HttpNotFound();
             };
 
-            var data = db.客戶資料.Find(id);
+            var data = repo.All().Where(p => p.Id == id).FirstOrDefault();
 
             return View(data);
         }
         [HttpPost]
         public ActionResult Edit(int id, 客戶資料 customer)
         {
-            var data = db.客戶資料.Find(id);
+            var data = repo.All().Where(p => p.Id == id).FirstOrDefault();
 
             if (ModelState.IsValid)
             {
                 data.InjectFrom(customer);
 
-                db.SaveChanges();
+                repo.UnitOfWork.Commit();
 
                 return RedirectToAction("Index");
             }
@@ -76,7 +74,7 @@ namespace HomeworkCustomer.Controllers
                 return HttpNotFound();
             };
 
-            var data = db.客戶資料.Find(id);
+            var data = repo.All().Where(p => p.Id == id).FirstOrDefault();
 
             return View(data);
         }
@@ -84,12 +82,10 @@ namespace HomeworkCustomer.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection form)
         {
-            var data = db.客戶資料.Find(id);
 
-            data.IsDelete = true;
-
-            db.SaveChanges();
-
+            var data = repo.All().Where(p => p.Id == id).FirstOrDefault();
+            repo.Delete(data);
+            repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
 
@@ -101,7 +97,7 @@ namespace HomeworkCustomer.Controllers
                 return HttpNotFound();
             }
 
-            var data = db.客戶資料.Find(id);
+            var data = repo.All().Where(p => p.Id == id).FirstOrDefault();
 
             return View(data);
         }

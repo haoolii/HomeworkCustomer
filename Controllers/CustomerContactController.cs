@@ -10,17 +10,22 @@ namespace HomeworkCustomer.Controllers
 {
     public class CustomerContactController : Controller
     {
-        private 客戶資料Entities db = new 客戶資料Entities();
+        客戶聯絡人Repository repo;
+        客戶資料Repository repoCustomer;
         // GET: CustomerContact
+        public CustomerContactController()
+        {
+            repo = RepositoryHelper.Get客戶聯絡人Repository();
+            repoCustomer = RepositoryHelper.Get客戶資料Repository(repo.UnitOfWork);
+        }
         public ActionResult Index()
         {
-            var datas = db.客戶聯絡人.ToList().Where(p => p.IsDelete != true);
-            return View(datas);
+            return View(repo.All());
         }
 
         public ActionResult Create()
         {
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(repoCustomer.All(), "Id", "客戶名稱");
             return View();
         }
 
@@ -29,11 +34,11 @@ namespace HomeworkCustomer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶聯絡人.Add(customerContact);
-                db.SaveChanges();
+                repo.Add(customerContact);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料.Where(p => p.IsDelete != true), "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(repoCustomer.All(), "Id", "客戶名稱");
             return View(customerContact);
         }
 
@@ -44,7 +49,7 @@ namespace HomeworkCustomer.Controllers
                 return HttpNotFound();
             }
 
-            var data = db.客戶聯絡人.Find(id);
+            var data = repo.Where(p => p.Id == id).FirstOrDefault();
 
             return View(data);
         }
@@ -56,9 +61,9 @@ namespace HomeworkCustomer.Controllers
                 return HttpNotFound();
             }
 
-            var data = db.客戶聯絡人.Find(id);
+            var data = repo.Where(p => p.Id == id).FirstOrDefault();
 
-            ViewBag.客戶Id = new SelectList(db.客戶資料.Where(p => p.IsDelete != true), "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(repoCustomer.All(), "Id", "客戶名稱");
 
             return View(data);
         }
@@ -66,19 +71,19 @@ namespace HomeworkCustomer.Controllers
         [HttpPost]
         public ActionResult Edit(int id, 客戶聯絡人 customerContact)
         {
-            var data = db.客戶聯絡人.Find(id);
+            var data = repo.Where(p => p.Id == id).FirstOrDefault();
 
             if (ModelState.IsValid)
             {
 
                 data.InjectFrom(customerContact);
 
-                db.SaveChanges();
+                repo.UnitOfWork.Commit();
 
                 return RedirectToAction("Index");
             }
 
-            ViewBag.客戶Id = new SelectList(db.客戶資料.Where(p => p.IsDelete != true), "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(repoCustomer.All(), "Id", "客戶名稱");
 
             return View(data);
         }
@@ -90,7 +95,7 @@ namespace HomeworkCustomer.Controllers
                 return HttpNotFound();
             }
 
-            var data = db.客戶聯絡人.Find(id);
+            var data = repo.Where(p => p.Id == id).FirstOrDefault();
 
             return View(data);
         }
@@ -98,21 +103,22 @@ namespace HomeworkCustomer.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection form)
         {
-            var data = db.客戶聯絡人.Find(id);
-
-            db.Configuration.ValidateOnSaveEnabled = false;
-
-            data.IsDelete = true;
-
-            db.SaveChanges();
-
+            var data = repo.Where(p => p.Id == id).FirstOrDefault();
+            repo.Delete(data);
+            repo.UnitOfWork.Commit();
             return RedirectToAction("index");
         }
 
+        // 修改時會有BUG
         [HttpGet]
         public JsonResult IsEmailAvailable(客戶聯絡人 model)
         {
-            return Json(!db.客戶聯絡人.Any(p => p.客戶Id == model.客戶Id && p.Email == model.Email && p.IsDelete == false), JsonRequestBehavior.AllowGet);
+            // 同一客戶
+            var sameCustomer = repo.Where(p => p.Id != model.Id && p.客戶Id == model.客戶Id);
+            // 聯絡人信箱必須不同
+            var result = sameCustomer.Where(p => p.Email != model.Email).Any();
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

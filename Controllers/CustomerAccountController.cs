@@ -10,17 +10,21 @@ namespace HomeworkCustomer.Controllers
 {
     public class CustomerAccountController : Controller
     {
-        private 客戶資料Entities db = new 客戶資料Entities();
-        // GET: CustomerAccount
+        客戶銀行資訊Repository repo;
+        客戶資料Repository repoCustomer;
+        public CustomerAccountController()
+        {
+            repo = RepositoryHelper.Get客戶銀行資訊Repository();
+            repoCustomer = RepositoryHelper.Get客戶資料Repository(repo.UnitOfWork);
+        }
         public ActionResult Index()
         {
-            var datas = db.客戶銀行資訊.ToList().Where(p => p.IsDelete != true);
-            return View(datas);
+            return View(repo.All());
         }
 
         public ActionResult Create()
         {
-            ViewBag.客戶Id = new SelectList(db.客戶資料.Where(p => p.IsDelete != true), "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(repoCustomer.All(), "Id", "客戶名稱");
             return View();
         }
 
@@ -29,8 +33,8 @@ namespace HomeworkCustomer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶銀行資訊.Add(customerAccount);
-                db.SaveChanges();
+                repo.Add(customerAccount);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
             return View(customerAccount);
@@ -42,9 +46,10 @@ namespace HomeworkCustomer.Controllers
             {
                 return HttpNotFound();
             }
-            var data = db.客戶銀行資訊.Find(id);
 
-            ViewBag.客戶Id = new SelectList(db.客戶資料.Where(p => p.IsDelete != true), "Id", "客戶名稱");
+            var data = repo.Where(p => p.Id == id).FirstOrDefault();
+
+            ViewBag.客戶Id = new SelectList(repoCustomer.All(), "Id", "客戶名稱");
 
             return View(data);
         }
@@ -52,19 +57,18 @@ namespace HomeworkCustomer.Controllers
         [HttpPost]
         public ActionResult Edit(int id, 客戶銀行資訊 account)
         {
-            var data = db.客戶銀行資訊.Find(id);
+            var data = repo.Where(p => p.Id == id).FirstOrDefault();
 
             if (ModelState.IsValid)
             {
 
                 data.InjectFrom(account);
-
-                db.SaveChanges();
+                repo.UnitOfWork.Commit();
 
                 return RedirectToAction("Index");
             }
 
-            ViewBag.客戶Id = new SelectList(db.客戶資料.Where(p => p.IsDelete != true), "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(repoCustomer.All(), "Id", "客戶名稱");
 
             return View(data);
         }
@@ -76,19 +80,19 @@ namespace HomeworkCustomer.Controllers
                 return HttpNotFound();
             }
 
-            var data = db.客戶銀行資訊.Find(id);
+            var data = repo.Where(p => p.Id == id).FirstOrDefault();
 
             return View(data);
         }
 
         public ActionResult Delete(int? id)
         {
-            if(!id.HasValue)
+            if (!id.HasValue)
             {
                 return HttpNotFound();
             }
 
-            var data = db.客戶銀行資訊.Find(id);
+            var data = repo.Where(p => p.Id == id).FirstOrDefault();
 
             return View(data);
         }
@@ -96,11 +100,9 @@ namespace HomeworkCustomer.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection form)
         {
-            var data = db.客戶銀行資訊.Find(id);
-
-            data.IsDelete = true;
-
-            db.SaveChanges();
+            var data = repo.Where(p => p.Id == id).FirstOrDefault();
+            repo.Delete(data);
+            repo.UnitOfWork.Commit();
 
             return RedirectToAction("Index");
         }
