@@ -111,16 +111,15 @@ namespace HomeworkCustomer.Controllers
             return RedirectToAction("index");
         }
 
-        // 修改時會有BUG
         [HttpGet]
         public JsonResult IsEmailAvailable(客戶聯絡人 model)
         {
             // 同一客戶
-            var sameCustomer = repo.Where(p => p.Id != model.Id && p.客戶Id == model.客戶Id);
+            var sameCustomer = repo.Where(p => p.客戶Id == model.客戶Id);
             // 聯絡人信箱必須不同
-            var result = sameCustomer.Where(p => p.Email != model.Email).Any();
+            var result = sameCustomer.Where(p => p.Email == model.Email && p.Id != model.Id).Any();
 
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(!result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

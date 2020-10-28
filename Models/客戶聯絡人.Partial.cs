@@ -27,7 +27,7 @@ namespace HomeworkCustomer.Models
         
         [StringLength(250, ErrorMessage="欄位長度不得大於 250 個字元")]
         [Required]
-        [Remote("IsEmailAvailable", "CustomerContact", ErrorMessage = "該客戶此相同信箱已經使用過了", AdditionalFields = "客戶Id")]
+        [Remote("IsEmailAvailable", "CustomerContact", ErrorMessage = "該客戶此相同信箱已經使用過了", AdditionalFields = "Id, 客戶Id")]
         public string Email { get; set; }
 
         [PhoneCorrect]
