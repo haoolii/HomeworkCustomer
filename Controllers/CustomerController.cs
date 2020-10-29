@@ -12,8 +12,14 @@ namespace HomeworkCustomer.Controllers
 {
     public class CustomerController : Controller
     {
-        客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
-        // GET: Customer
+        客戶資料Repository repo;
+        客戶分類Repository repoCategory;
+
+        public CustomerController()
+        {
+            repo = RepositoryHelper.Get客戶資料Repository();
+            repoCategory = RepositoryHelper.Get客戶分類Repository(repo.UnitOfWork);
+        }
         public ActionResult Index(string sortOrder, string searchString)
         {
             ViewData["sortOrder"] = sortOrder;
@@ -67,6 +73,7 @@ namespace HomeworkCustomer.Controllers
         }
         public ActionResult Create()
         {
+            ViewBag.客戶分類Id = new SelectList(repoCategory.All(), "Id", "客戶分類名稱");
             return View();
         }
 
@@ -89,7 +96,7 @@ namespace HomeworkCustomer.Controllers
             {
                 return HttpNotFound();
             };
-
+            ViewBag.客戶分類Id = new SelectList(repoCategory.All(), "Id", "客戶分類名稱");
             var data = repo.All().Where(p => p.Id == id).FirstOrDefault();
 
             return View(data);
