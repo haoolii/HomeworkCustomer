@@ -14,15 +14,16 @@ namespace HomeworkCustomer.Controllers
     {
         客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
         // GET: Customer
-        public ActionResult Index(string sortOrder)
+        public ActionResult Index(string sortOrder, string searchString)
         {
             ViewData["sortOrder"] = sortOrder;
-            //if (!String.IsNullOrEmpty(queryString))
-            //{
-            //    var queryDatas = repo.All().Where(p => p.客戶名稱.Contains(queryString));
-            //    return View(queryDatas);V
-            //}
             var datas = repo.All();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                datas = repo.All().Where(p => p.客戶名稱.Contains(searchString));
+            }
+
             switch (sortOrder)
             {
                 case "客戶名稱_desc":

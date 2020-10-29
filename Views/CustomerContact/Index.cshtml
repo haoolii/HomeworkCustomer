@@ -9,10 +9,28 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-@using (Html.BeginForm("GetReport", "CustomerContact", FormMethod.Post))
-{
-    <input type="submit" value="產生報表" />
-}
+<div>
+    <div class="pull-left">
+        @using (Html.BeginForm("Index", "CustomerContact", FormMethod.Get, new { @class = "form-inline" }))
+        {
+            <div class="form-group">
+                @Html.TextBox(
+                    "SearchString",
+                    null,
+                    new { @class = "form-control" }
+                )
+                <input type="submit" value="查詢" placeholder="姓名" class="btn btn-default" />
+            </div>
+        }
+    </div>
+    <div class="pull-right">
+        @using (Html.BeginForm("GetReport", "CustomerContact", FormMethod.Post))
+        {
+            <input type="submit" value="產生報表" class="btn btn-default" />
+        }
+    </div>
+</div>
+
 <table class="table">
     <tr>
         <th>

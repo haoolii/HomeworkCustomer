@@ -5,23 +5,30 @@
 }
 
 <h2>Index</h2>
-
 <p>
     @Html.ActionLink("Create New", "Create")
-
-    @using (Html.BeginForm("Index", "Customer", FormMethod.Get))
-    {
-        @Html.TextBox("queryString")
-        <input type="submit" value="查詢" placeholder="客戶名稱	" />
-    }
 </p>
-
-
-@using (Html.BeginForm("GetReport", "Customer", FormMethod.Post))
-{
-    <input type="submit" value="產生報表" />
-}
-
+<div>
+    <div class="pull-left">
+        @using (Html.BeginForm("Index", "Customer", FormMethod.Get, new { @class = "form-inline" }))
+        {
+            <div class="form-group">
+                @Html.TextBox(
+                    "SearchString",
+                    null,
+                    new { @class = "form-control" }
+                )
+                <input type="submit" value="查詢" placeholder="客戶名稱" class="btn btn-default" />
+            </div>
+        }
+    </div>
+    <div class="pull-right">
+        @using (Html.BeginForm("GetReport", "Customer", FormMethod.Post))
+        {
+            <input type="submit" value="產生報表" class="btn btn-default" />
+        }
+    </div>
+</div>
 <table class="table">
     <tr>
         <th>

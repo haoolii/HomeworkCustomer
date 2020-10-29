@@ -20,15 +20,15 @@ namespace HomeworkCustomer.Controllers
             repo = RepositoryHelper.Get客戶聯絡人Repository();
             repoCustomer = RepositoryHelper.Get客戶資料Repository(repo.UnitOfWork);
         }
-        public ActionResult Index(string sortOrder)
+        public ActionResult Index(string sortOrder, string searchString)
         {
             ViewData["sortOrder"] = sortOrder;
-            //if (!String.IsNullOrEmpty(queryString))
-            //{
-            //    var queryDatas = repo.All().Where(p => p.客戶名稱.Contains(queryString));
-            //    return View(queryDatas);V
-            //}
             var datas = repo.All();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                datas = repo.All().Where(p => p.姓名.Contains(searchString));
+            }
             switch (sortOrder)
             {
                 case "職稱_desc":

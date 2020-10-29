@@ -19,9 +19,15 @@ namespace HomeworkCustomer.Controllers
             repo = RepositoryHelper.Get客戶銀行資訊Repository();
             repoCustomer = RepositoryHelper.Get客戶資料Repository(repo.UnitOfWork);
         }
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            return View(repo.All());
+            var datas = repo.All();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                datas = repo.All().Where(p => p.銀行名稱.Contains(searchString));
+            }
+            return View(datas);
         }
 
         public ActionResult Create()
