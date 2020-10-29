@@ -20,14 +20,20 @@ namespace HomeworkCustomer.Controllers
             repo = RepositoryHelper.Get客戶資料Repository();
             repoCategory = RepositoryHelper.Get客戶分類Repository(repo.UnitOfWork);
         }
-        public ActionResult Index(string sortOrder, string searchString)
+        public ActionResult Index(string sortOrder, string searchString, int? 客戶分類Id)
         {
             ViewData["sortOrder"] = sortOrder;
+            ViewBag.客戶分類Id = new SelectList(repoCategory.All(), "Id", "客戶分類名稱");
             var datas = repo.All();
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                datas = repo.All().Where(p => p.客戶名稱.Contains(searchString));
+                datas = datas.Where(p => p.客戶名稱.Contains(searchString));
+            }
+
+            if (客戶分類Id.HasValue)
+            {
+                datas = datas.Where(p => p.客戶分類Id == 客戶分類Id);
             }
 
             switch (sortOrder)
@@ -73,6 +79,7 @@ namespace HomeworkCustomer.Controllers
         }
         public ActionResult Create()
         {
+            var 客戶分類data = repoCategory.All();
             ViewBag.客戶分類Id = new SelectList(repoCategory.All(), "Id", "客戶分類名稱");
             return View();
         }

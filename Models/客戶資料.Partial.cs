@@ -18,7 +18,7 @@ namespace HomeworkCustomer.Models
         [Required]
         public string 客戶名稱 { get; set; }
 
-        public string 客戶分類Id { get; set; }
+        public int 客戶分類Id { get; set; }
         
         [StringLength(8, ErrorMessage="欄位長度不得大於 8 個字元")]
         [Required]
@@ -35,6 +35,7 @@ namespace HomeworkCustomer.Models
         public string 地址 { get; set; }
         
         [StringLength(250, ErrorMessage="欄位長度不得大於 250 個字元")]
+        [EmailAddress]
         public string Email { get; set; }
     
         public virtual ICollection<客戶銀行資訊> 客戶銀行資訊 { get; set; }
