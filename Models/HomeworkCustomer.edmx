@@ -19,7 +19,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="客戶分類名稱" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
         </EntityType>

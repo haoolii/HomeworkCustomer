@@ -335,11 +335,13 @@
     <Content Include="Views\CustomerContact\Edit.cshtml" />
     <Content Include="Views\CustomerContact\Index.cshtml" />
     <Content Include="Views\Home\Report.cshtml" />
+    <Content Include="Views\CustomerCategory\Index.cshtml" />
+    <Content Include="Views\CustomerCategory\Create.cshtml" />
+    <Content Include="Views\CustomerCategory\Edit.cshtml" />
+    <Content Include="Views\CustomerCategory\Delete.cshtml" />
+    <Content Include="Views\CustomerCategory\Details.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\CustomerCategory\" />
-    <Folder Include="Views\CustomerCatrgory\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
