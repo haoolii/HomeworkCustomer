@@ -11,17 +11,25 @@
 </p>
 <div>
     <div class="pull-left">
-        @using (Html.BeginForm("Index", "CustomerContact", FormMethod.Get, new { @class = "form-inline" }))
-        {
-            <div class="form-group">
-                @Html.TextBox(
-                    "SearchString",
-                    null,
-                    new { @class = "form-control" }
-                )
-                <input type="submit" value="查詢" placeholder="姓名" class="btn btn-default" />
+        <div style="display: flex;">
+            <div>
+                @using (Html.BeginForm("Index", "CustomerContact", FormMethod.Get, new { @class = "form-inline", @id = "filterForm" }))
+                {
+                    @Html.DropDownList("職稱", null, htmlAttributes: new { @class = "form-control", @id = "filterDropDown" })
+                }
             </div>
-        }
+            @using (Html.BeginForm("Index", "CustomerContact", FormMethod.Get, new { @class = "form-inline" }))
+            {
+                <div class="form-group">
+                    @Html.TextBox(
+                        "SearchString",
+                        null,
+                        new { @class = "form-control" }
+                    )
+                    <input type="submit" value="查詢" placeholder="姓名" class="btn btn-default" />
+                </div>
+            }
+        </div>
     </div>
     <div class="pull-right">
         @using (Html.BeginForm("GetReport", "CustomerContact", FormMethod.Post))
@@ -114,3 +122,11 @@
     }
 
 </table>
+
+@section Scripts {
+    <script>
+        $("#filterDropDown").on("change", function () {
+            $('#filterForm')[0].submit();
+        });
+    </script>
+}

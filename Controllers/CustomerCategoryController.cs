@@ -17,7 +17,7 @@ namespace HomeworkCustomer.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                datas = repo.All().Where(p => p.客戶分類名稱.Contains(searchString));
+                datas = datas.Where(p => p.客戶分類名稱.Contains(searchString));
             }
 
             return View(datas);

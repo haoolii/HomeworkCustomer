@@ -20,15 +20,22 @@ namespace HomeworkCustomer.Controllers
             repo = RepositoryHelper.Get客戶聯絡人Repository();
             repoCustomer = RepositoryHelper.Get客戶資料Repository(repo.UnitOfWork);
         }
-        public ActionResult Index(string sortOrder, string searchString)
+        public ActionResult Index(string sortOrder, string searchString, string 職稱)
         {
             ViewData["sortOrder"] = sortOrder;
+            ViewBag.職稱 = new SelectList(repo.All().Select(p => new { p.職稱 }).Distinct(), "職稱", "職稱");
             var datas = repo.All();
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                datas = repo.All().Where(p => p.姓名.Contains(searchString));
+                datas = datas.Where(p => p.姓名.Contains(searchString));
             }
+
+            if (!String.IsNullOrEmpty(職稱))
+            {
+                datas = datas.Where(p => p.職稱.Contains(職稱));
+            }
+
             switch (sortOrder)
             {
                 case "職稱_desc":

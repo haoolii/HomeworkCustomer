@@ -31,9 +31,14 @@ namespace HomeworkCustomer.Controllers
             return View();
         }
 
-        public ActionResult Report()
+        public ActionResult Report(string searchString)
         {
-            return View(repo.All());
+            var datas = repo.All();
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                datas = datas.Where(p => p.客戶名稱.Contains(searchString));
+            }
+            return View(datas);
         }
 
         [HttpPost]
