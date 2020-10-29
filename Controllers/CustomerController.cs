@@ -14,14 +14,55 @@ namespace HomeworkCustomer.Controllers
     {
         客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
         // GET: Customer
-        public ActionResult Index(string queryString)
+        public ActionResult Index(string sortOrder)
         {
-            if (!String.IsNullOrEmpty(queryString))
+            ViewData["sortOrder"] = sortOrder;
+            //if (!String.IsNullOrEmpty(queryString))
+            //{
+            //    var queryDatas = repo.All().Where(p => p.客戶名稱.Contains(queryString));
+            //    return View(queryDatas);V
+            //}
+            var datas = repo.All();
+            switch (sortOrder)
             {
-                var queryDatas = repo.All().Where(p => p.客戶名稱.Contains(queryString));
-                return View(queryDatas);
+                case "客戶名稱_desc":
+                    datas = datas.OrderByDescending(p => p.客戶名稱);
+                    break;
+                case "統一編號_desc":
+                    datas = datas.OrderByDescending(p => p.統一編號);
+                    break;
+                case "統一編號":
+                    datas = datas.OrderBy(p => p.統一編號);
+                    break;
+                case "電話_desc":
+                    datas = datas.OrderByDescending(p => p.電話);
+                    break;
+                case "電話":
+                    datas = datas.OrderBy(p => p.電話);
+                    break;
+                case "傳真_desc":
+                    datas = datas.OrderByDescending(p => p.傳真);
+                    break;
+                case "傳真":
+                    datas = datas.OrderBy(p => p.傳真);
+                    break;
+                case "地址_desc":
+                    datas = datas.OrderByDescending(p => p.地址);
+                    break;
+                case "地址":
+                    datas = datas.OrderBy(p => p.地址);
+                    break;
+                case "Email_desc":
+                    datas = datas.OrderByDescending(p => p.Email);
+                    break;
+                case "Email":
+                    datas = datas.OrderBy(p => p.Email);
+                    break;
+                default:
+                    datas = datas.OrderBy(s => s.客戶名稱);
+                    break;
             }
-            return View(repo.All());
+            return View(datas);
         }
         public ActionResult Create()
         {

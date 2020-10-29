@@ -16,22 +16,52 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.職稱)
+            @Html.RouteLink("職稱", new
+           {
+               controller = "CustomerContact",
+               action = "Index",
+               sortOrder = ViewBag.sortOrder == "職稱" ? "職稱_desc" : "職稱"
+           })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.姓名)
+            @Html.RouteLink("姓名", new
+           {
+               controller = "CustomerContact",
+               action = "Index",
+               sortOrder = ViewBag.sortOrder == "姓名" ? "姓名_desc" : "姓名"
+           })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.RouteLink("Email", new
+           {
+               controller = "CustomerContact",
+               action = "Index",
+               sortOrder = ViewBag.sortOrder == "Email" ? "Email_desc" : "Email"
+           })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.手機)
+            @Html.RouteLink("手機", new
+           {
+               controller = "CustomerContact",
+               action = "Index",
+               sortOrder = ViewBag.sortOrder == "手機" ? "手機_desc" : "手機"
+           })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.電話)
+            @Html.RouteLink("電話", new
+           {
+               controller = "CustomerContact",
+               action = "Index",
+               sortOrder = ViewBag.sortOrder == "電話" ? "電話_desc" : "電話"
+           })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
+            @Html.RouteLink("客戶名稱", new
+           {
+               controller = "CustomerContact",
+               action = "Index",
+               sortOrder = ViewBag.sortOrder == "客戶名稱" ? "客戶名稱_desc" : "客戶名稱"
+           })
         </th>
         <th></th>
     </tr>

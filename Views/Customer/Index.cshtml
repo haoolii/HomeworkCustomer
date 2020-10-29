@@ -17,30 +17,60 @@
 </p>
 
 
-    @using (Html.BeginForm("GetReport", "Customer", FormMethod.Post))
-    {
-        <input type="submit" value="產生報表"/>
-    }
+@using (Html.BeginForm("GetReport", "Customer", FormMethod.Post))
+{
+    <input type="submit" value="產生報表" />
+}
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.客戶名稱)
+            @Html.RouteLink("客戶名稱", new
+            {
+                controller = "Customer",
+                action = "Index",
+                sortOrder = ViewBag.sortOrder == "客戶名稱" ? "客戶名稱_desc" : "客戶名稱"
+            })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.統一編號)
+            @Html.RouteLink("統一編號", new
+           {
+               controller = "Customer",
+               action = "Index",
+               sortOrder = ViewBag.sortOrder == "統一編號" ? "統一編號_desc" : "統一編號"
+           })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.電話)
+            @Html.RouteLink("電話", new
+           {
+               controller = "Customer",
+               action = "Index",
+               sortOrder = ViewBag.sortOrder == "電話" ? "電話_desc" : "電話"
+           })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.傳真)
+            @Html.RouteLink("傳真", new
+           {
+               controller = "Customer",
+               action = "Index",
+               sortOrder = ViewBag.sortOrder == "傳真" ? "傳真_desc" : "傳真"
+           })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.地址)
+            @Html.RouteLink("地址", new
+           {
+               controller = "Customer",
+               action = "Index",
+               sortOrder = ViewBag.sortOrder == "地址" ? "地址_desc" : "地址"
+           })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.RouteLink("Email", new
+           {
+               controller = "Customer",
+               action = "Index",
+               sortOrder = ViewBag.sortOrder == "Email" ? "Email_desc" : "Email"
+           })
         </th>
         <th></th>
     </tr>

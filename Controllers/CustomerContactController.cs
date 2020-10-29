@@ -20,9 +20,55 @@ namespace HomeworkCustomer.Controllers
             repo = RepositoryHelper.Get客戶聯絡人Repository();
             repoCustomer = RepositoryHelper.Get客戶資料Repository(repo.UnitOfWork);
         }
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
-            return View(repo.All());
+            ViewData["sortOrder"] = sortOrder;
+            //if (!String.IsNullOrEmpty(queryString))
+            //{
+            //    var queryDatas = repo.All().Where(p => p.客戶名稱.Contains(queryString));
+            //    return View(queryDatas);V
+            //}
+            var datas = repo.All();
+            switch (sortOrder)
+            {
+                case "職稱_desc":
+                    datas = datas.OrderByDescending(p => p.職稱);
+                    break;
+                case "姓名_desc":
+                    datas = datas.OrderByDescending(p => p.姓名);
+                    break;
+                case "姓名":
+                    datas = datas.OrderBy(p => p.姓名);
+                    break;
+                case "Email_desc":
+                    datas = datas.OrderByDescending(p => p.Email);
+                    break;
+                case "Email":
+                    datas = datas.OrderBy(p => p.Email);
+                    break;
+                case "手機_desc":
+                    datas = datas.OrderByDescending(p => p.手機);
+                    break;
+                case "手機":
+                    datas = datas.OrderBy(p => p.手機);
+                    break;
+                case "電話_desc":
+                    datas = datas.OrderByDescending(p => p.電話);
+                    break;
+                case "電話":
+                    datas = datas.OrderBy(p => p.電話);
+                    break;
+                case "客戶名稱_desc":
+                    datas = datas.OrderByDescending(p => p.客戶資料.客戶名稱);
+                    break;
+                case "客戶名稱":
+                    datas = datas.OrderBy(p => p.客戶資料.客戶名稱);
+                    break;
+                default:
+                    datas = datas.OrderBy(s => s.職稱);
+                    break;
+            }
+            return View(datas);
         }
 
         public ActionResult Create()
