@@ -150,6 +150,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CustomerAccountController.cs" />
+    <Compile Include="Controllers\CustomerCategoryController.cs" />
     <Compile Include="Controllers\CustomerContactController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -220,6 +221,9 @@
     </Compile>
     <Compile Include="Models\客戶分類.Partial.cs">
       <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\客戶分類Repository.cs">
+      <DependentUpon>IRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\客戶聯絡人.cs">
       <DependentUpon>HomeworkCustomer.tt</DependentUpon>
@@ -332,7 +336,10 @@
     <Content Include="Views\CustomerContact\Index.cshtml" />
     <Content Include="Views\Home\Report.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\CustomerCategory\" />
+    <Folder Include="Views\CustomerCatrgory\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
