@@ -17,6 +17,8 @@ namespace HomeworkCustomer.Models
         [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]
         [Required]
         public string 客戶名稱 { get; set; }
+
+        public string 客戶分類Id { get; set; }
         
         [StringLength(8, ErrorMessage="欄位長度不得大於 8 個字元")]
         [Required]

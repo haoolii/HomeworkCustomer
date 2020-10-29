@@ -30,5 +30,6 @@ namespace HomeworkCustomer.Models
         public virtual DbSet<客戶銀行資訊> 客戶銀行資訊 { get; set; }
         public virtual DbSet<客戶聯絡人> 客戶聯絡人 { get; set; }
         public virtual DbSet<Customer_Test_View> Customer_Test_View { get; set; }
+        public virtual DbSet<客戶分類> 客戶分類 { get; set; }
     }
 }

@@ -15,6 +15,14 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="客戶分類">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="客戶分類名稱" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="客戶資料">
           <Key>
             <PropertyRef Name="Id" />
@@ -27,6 +35,7 @@
           <Property Name="地址" Type="nvarchar" MaxLength="100" />
           <Property Name="Email" Type="nvarchar" MaxLength="250" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="客戶分類Id" Type="int" />
         </EntityType>
         <EntityType Name="客戶銀行資訊">
           <Key>
@@ -66,6 +75,18 @@
           <Property Name="客戶銀行數" Type="int" />
           <Property Name="客戶聯絡人數" Type="int" />
         </EntityType>
+        <Association Name="FK_客戶資料_客戶分類">
+          <End Role="客戶分類" Type="Self.客戶分類" Multiplicity="0..1" />
+          <End Role="客戶資料" Type="Self.客戶資料" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="客戶分類">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="客戶資料">
+              <PropertyRef Name="客戶分類Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_客戶銀行資訊_客戶資料">
           <End Role="客戶資料" Type="Self.客戶資料" Multiplicity="1" />
           <End Role="客戶銀行資訊" Type="Self.客戶銀行資訊" Multiplicity="*" />
@@ -92,6 +113,7 @@
         </Association>
         <EntityContainer Name="客戶資料ModelStoreContainer">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="客戶分類" EntityType="Self.客戶分類" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="客戶資料" EntityType="Self.客戶資料" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="客戶銀行資訊" EntityType="Self.客戶銀行資訊" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="客戶聯絡人" EntityType="Self.客戶聯絡人" Schema="dbo" store:Type="Tables" />
@@ -103,6 +125,10 @@
     [Customer_Test_View].[客戶聯絡人數] AS [客戶聯絡人數]
     FROM [dbo].[Customer_Test_View] AS [Customer_Test_View]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_客戶資料_客戶分類" Association="Self.FK_客戶資料_客戶分類">
+            <End Role="客戶分類" EntitySet="客戶分類" />
+            <End Role="客戶資料" EntitySet="客戶資料" />
+          </AssociationSet>
           <AssociationSet Name="FK_客戶銀行資訊_客戶資料" Association="Self.FK_客戶銀行資訊_客戶資料">
             <End Role="客戶資料" EntitySet="客戶資料" />
             <End Role="客戶銀行資訊" EntitySet="客戶銀行資訊" />
@@ -140,6 +166,8 @@
           <NavigationProperty Name="客戶銀行資訊" Relationship="Self.FK_客戶銀行資訊_客戶資料" FromRole="客戶資料" ToRole="客戶銀行資訊" />
           <NavigationProperty Name="客戶聯絡人" Relationship="Self.FK_客戶聯絡人_客戶資料" FromRole="客戶資料" ToRole="客戶聯絡人" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="客戶分類Id" Type="Int32" />
+          <NavigationProperty Name="客戶分類" Relationship="客戶資料Model.FK_客戶資料_客戶分類" FromRole="客戶資料" ToRole="客戶分類" />
         </EntityType>
         <EntityType Name="客戶銀行資訊">
           <Key>
@@ -207,6 +235,11 @@
             <End Role="客戶聯絡人" EntitySet="客戶聯絡人" />
           </AssociationSet>
           <EntitySet Name="Customer_Test_View" EntityType="客戶資料Model.Customer_Test_View" />
+          <EntitySet Name="客戶分類" EntityType="客戶資料Model.客戶分類" />
+          <AssociationSet Name="FK_客戶資料_客戶分類" Association="客戶資料Model.FK_客戶資料_客戶分類">
+            <End Role="客戶分類" EntitySet="客戶分類" />
+            <End Role="客戶資料" EntitySet="客戶資料" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Customer_Test_View">
           <Key>
@@ -218,6 +251,27 @@
           <Property Name="客戶銀行數" Type="Int32" />
           <Property Name="客戶聯絡人數" Type="Int32" />
         </EntityType>
+        <EntityType Name="客戶分類">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="客戶分類名稱" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="客戶資料" Relationship="客戶資料Model.FK_客戶資料_客戶分類" FromRole="客戶分類" ToRole="客戶資料" />
+        </EntityType>
+        <Association Name="FK_客戶資料_客戶分類">
+          <End Type="客戶資料Model.客戶分類" Role="客戶分類" Multiplicity="0..1" />
+          <End Type="客戶資料Model.客戶資料" Role="客戶資料" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="客戶分類">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="客戶資料">
+              <PropertyRef Name="客戶分類Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -238,6 +292,7 @@
           <EntitySetMapping Name="客戶資料">
             <EntityTypeMapping TypeName="客戶資料Model.客戶資料">
               <MappingFragment StoreEntitySet="客戶資料">
+                <ScalarProperty Name="客戶分類Id" ColumnName="客戶分類Id" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="客戶名稱" ColumnName="客戶名稱" />
@@ -283,6 +338,15 @@
                 <ScalarProperty Name="客戶聯絡人數" ColumnName="客戶聯絡人數" />
                 <ScalarProperty Name="客戶銀行數" ColumnName="客戶銀行數" />
                 <ScalarProperty Name="客戶名稱" ColumnName="客戶名稱" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="客戶分類">
+            <EntityTypeMapping TypeName="客戶資料Model.客戶分類">
+              <MappingFragment StoreEntitySet="客戶分類">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="客戶分類名稱" ColumnName="客戶分類名稱" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
